@@ -10,4 +10,4 @@
 
 1. Product owner is responsible for managing the product backlog and representing the stakeholders and customer needs to the development team.
 2. Scrum master is required and is responsible for helping the team follow the scrum framework and building a collaborative environment
-3.
+3. a
