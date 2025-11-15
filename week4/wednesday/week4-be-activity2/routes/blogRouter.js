@@ -11,10 +11,13 @@ router.post("/", BlogController.createBlog);
 // GET /blogs/:blogId
 router.get("/:blogId", BlogController.getBlogById);
 
-// PUT /blogs/:blogId
-router.put("/:blogId", BlogController.updateBlogById);
+// PATCH /blogs/:blogId
+router.patch("/:blogId", BlogController.updateBlogById);
 
 // DELETE /blogs/:blogId
 router.delete("/:blogId", BlogController.deleteBlogById);
+
+// PUT /blogs/:blogId
+router.put("/:blogId", BlogController.replaceBlogById);
 
 module.exports = router;

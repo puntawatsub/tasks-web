@@ -43,7 +43,7 @@ const getCarById = async (req, res) => {
   }
 };
 
-// PUT /cars/:carId
+// PATCH /cars/:carId
 const updateCar = async (req, res) => {
   const { carId } = req.params;
 
@@ -87,10 +87,35 @@ const deleteCar = async (req, res) => {
   }
 };
 
+// PUT /cars/:carId
+const replaceCar = async (req, res) => {
+  const { carId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(carId)) {
+    return res.status(400).json({ message: "Invalid car ID" });
+  }
+
+  try {
+    const updatedCar = await Car.findOneAndReplace(
+      { _id: carId },
+      { ...req.body }
+    );
+    if (updatedCar) {
+      res.status(200).json(updatedCar);
+    } else {
+      res.status(404).json({ message: "Car not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Failed to update car" });
+  }
+};
+
 module.exports = {
   getAllCars,
   getCarById,
   createCar,
   updateCar,
   deleteCar,
+  updateCar,
+  replaceCar,
 };

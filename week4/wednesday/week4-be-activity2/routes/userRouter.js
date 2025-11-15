@@ -11,10 +11,13 @@ router.post("/", UserController.createUser);
 // GET /users/:userId
 router.get("/:userId", UserController.getUserById);
 
-// PUT /users/:userId
-router.put("/:userId", UserController.updateUserById);
+// PATCH /users/:userId
+router.patch("/:userId", UserController.updateUserById);
 
 // DELETE /users/:userId
 router.delete("/:userId", UserController.deleteUserById);
+
+// PUT /users/:userId
+router.put("/:userId", UserController.replaceUserById);
 
 module.exports = router;

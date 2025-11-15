@@ -44,7 +44,7 @@ const getBlogById = async (req, res) => {
   }
 };
 
-// PUT /blogs/:blogId
+// PATCH /blogs/:blogId
 const updateBlogById = async (req, res) => {
   const { blogId } = req.params;
 
@@ -53,7 +53,7 @@ const updateBlogById = async (req, res) => {
   }
 
   try {
-    const blog = await Blog.findByIdAndUpdate(
+    const blog = await Blog.findOneAndUpdate(
       { _id: blogId },
       { ...req.body },
       { new: true }
@@ -89,10 +89,32 @@ const deleteBlogById = async (req, res) => {
   }
 };
 
+// PUT /blogs/:blogId
+const replaceBlogById = async (req, res) => {
+  const { blogId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(blogId)) {
+    return res.status(400).json({ message: "Invalid blog ID" });
+  }
+
+  try {
+    const blog = await Blog.findOneAndReplace({ _id: blogId }, { ...req.body });
+
+    if (blog) {
+      res.json(blog);
+    } else {
+      res.status(404).json({ message: "Blog not found" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Failed to update blog" });
+  }
+};
+
 module.exports = {
   getAllBlogs,
   createBlog,
   getBlogById,
   updateBlogById,
   deleteBlogById,
+  replaceBlogById,
 };

@@ -46,7 +46,7 @@ const getUserById = async (req, res) => {
   }
 };
 
-// PUT /users/:userId
+// PATCH /users/:userId
 const updateUserById = async (req, res) => {
   const { userId } = req.params;
 
@@ -91,10 +91,32 @@ const deleteUserById = async (req, res) => {
   }
 };
 
+// PUT /users/:userId
+const replaceUserById = async (req, res) => {
+  const { userId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).json({ message: "Invalid user ID" });
+  }
+
+  try {
+    const user = await User.findOneAndReplace({ _id: userId }, { ...req.body });
+
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json(userNotFound);
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Failed to update user" });
+  }
+};
+
 module.exports = {
   getAllUsers,
   createUser,
   getUserById,
   updateUserById,
   deleteUserById,
+  replaceUserById,
 };
